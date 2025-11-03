@@ -19,11 +19,6 @@ app.use(helmet());
 
 app.use(notesRoutes);
 
-app.get("/notes/:noteId", (req, res) => {
-  const { noteId } = req.params;
-  res.status(200).json({ message: `Retrieved note with ID: ${noteId}` });
-});
-
 app.use(notFoundHandler);
 
 app.use(errorHandler);
