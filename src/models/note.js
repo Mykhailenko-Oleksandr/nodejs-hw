@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { model, Schema } from 'mongoose';
 
 const notesSchema = new Schema(
   {
@@ -9,28 +9,29 @@ const notesSchema = new Schema(
     },
     content: {
       type: String,
+      default: '',
       trim: true,
     },
     tag: {
       type: String,
       enum: [
-        "Work",
-        "Personal",
-        "Meeting",
-        "Shopping",
-        "Ideas",
-        "Travel",
-        "Finance",
-        "Health",
-        "Important",
-        "Todo",
+        'Work',
+        'Personal',
+        'Meeting',
+        'Shopping',
+        'Ideas',
+        'Travel',
+        'Finance',
+        'Health',
+        'Important',
+        'Todo',
       ],
-      default: "Todo",
+      default: 'Todo',
     },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
-export const Note = model("Note", notesSchema);
+export const Note = model('Note', notesSchema);
