@@ -21,9 +21,9 @@ export const getAllNotes = async (req, res) => {
     notesQuery.skip(skip).limit(perPage),
   ]);
 
-  const totalPage = Math.ceil(totalNotes / perPage);
+  const totalPages = Math.ceil(totalNotes / perPage);
 
-  res.status(200).json({ page, perPage, totalNotes, totalPage, notes });
+  res.status(200).json({ page, perPage, totalNotes, totalPages, notes });
 };
 
 export const getNoteById = async (req, res, next) => {
@@ -47,7 +47,6 @@ export const createNote = async (req, res) => {
 export const deleteNote = async (req, res, next) => {
   const { noteId } = req.params;
   const note = await Note.findByIdAndDelete(noteId);
-  console.log('note', note);
 
   if (!note) {
     next(createHttpError(404, 'Note not found'));
