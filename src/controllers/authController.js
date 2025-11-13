@@ -7,7 +7,7 @@ import handlebars from 'handlebars';
 import { User } from '../models/user.js';
 import { createSession, setSessionCookies } from '../services/auth.js';
 import { Session } from '../models/session.js';
-import { sendMail } from '../utils/sendMail.js';
+import { sendEmail } from '../utils/sendMail.js';
 
 export const registerUser = async (req, res) => {
   const { email, password } = req.body;
@@ -105,6 +105,7 @@ export const requestResetEmail = async (req, res) => {
   const user = await User.findOne({ email });
   if (!user) {
     res.status(200).json({ message: 'Password reset email sent successfully' });
+    return;
   }
 
   const resetToken = jwt.sign(
@@ -125,7 +126,7 @@ export const requestResetEmail = async (req, res) => {
   });
 
   try {
-    await sendMail({
+    await sendEmail({
       from: process.env.SMTP_FROM,
       to: email,
       subject: 'Reset your password',
@@ -160,9 +161,6 @@ export const resetPassword = async (req, res) => {
   await User.updateOne({ _id: user._id }, { password: hashedNewPassword });
 
   await Session.deleteMany({ userId: user._id });
-
-  // const newSession = await createSession(user._id);
-  // setSessionCookies(res, newSession);
 
   res.status(200).json({
     message: 'Password reset successfully',
